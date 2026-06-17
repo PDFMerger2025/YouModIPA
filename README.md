@@ -3,14 +3,6 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0080,25:ff4400,50:ff0000,75:cc0000,100:8800ff&height=220&section=header&text=YouModExtra&fontSize=78&fontColor=ffffff&fontAlignY=38&desc=✦%20The%20Ultimate%20YouTube%20IPA%20Builder%20✦&descAlignY=60&descSize=22&animation=fadeIn" width="100%"/>
 
 <br/>
-
-[
-[
-[
-[
-[
-[
-
 <br/>
 
 🦖 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click 🦕
@@ -28,9 +20,6 @@
 The centerpiece is **YouMod**, a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0044ff,50:0088ff,100:00ccff&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ccff,50:00ffaa,100:00ff44&height=80&section=header&reversal=true" width="100%"/>
 
 ## ✨ Included Tweaks
@@ -58,9 +47,6 @@ The centerpiece is **YouMod**, a custom tweak built and maintained right here. A
 | 👑 **YouPro** | Optional premium UI layer | ❌ Off |
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff44,50:aaff00,100:ffcc00&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffcc00,50:ff8800,100:ff4400&height=80&section=header&reversal=true" width="100%"/>
 
 ## 🏗️ How It Works
@@ -80,9 +66,6 @@ The centerpiece is **YouMod**, a custom tweak built and maintained right here. A
 The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilation, and **cyan (pyzule-rw)** for IPA injection. Smart caching ensures previously-built tweaks are reused, keeping build times fast.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff4400,50:ff0080,100:cc00ff&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:cc00ff,50:8800ff,100:4400ff&height=80&section=header&reversal=true" width="100%"/>
 
 ## ▶️ Usage
@@ -111,9 +94,6 @@ The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilat
 7. Download and sideload with [Sideloadly](https://sideloadly.io), [AltStore](https://altstore.io), or your preferred tool
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:4400ff,50:0055ff,100:0099ff&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0099ff,50:00ddcc,100:00ff88&height=80&section=header&reversal=true" width="100%"/>
 
 ## 🔧 Workflow Files
@@ -130,9 +110,6 @@ The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilat
 **`_build_tweaks.yml`** — The heavy lifter. Installs Theos, clones and compiles every tweak from source, then uploads the built `.deb` files as artifacts.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff88,50:88ff00,100:ffee00&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffee00,50:ff9900,100:ff3300&height=80&section=header&reversal=true" width="100%"/>
 
 ## 🛠️ Building YouMod Locally
@@ -152,9 +129,6 @@ make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 The compiled `.deb` will be in `packages/`.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff3300,50:cc0088,100:8800ff&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,25:ff00cc,50:ff0055,75:ff6600,100:ffcc00&height=80&section=header&reversal=true" width="100%"/>
 
 ## 💎 Credits & Acknowledgements
@@ -168,10 +142,6 @@ The compiled `.deb` will be in `packages/`.
 A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** — the original architect behind this entire build system. The GitHub Actions pipeline, the tweak injection workflow, the caching strategy, the Theos integration — **all of it was designed and built by mrdrvt99**. This project simply extends that incredible foundation by integrating YouMod as the centerpiece tweak. Without their work, none of this would exist. Go give them a ⭐ star right now.
 
 <div align="center">
-
-[
-[
-
 </div>
 
 <br/>
@@ -204,9 +174,6 @@ A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** �
 | YTVideoOverlay | [@PoomSmart](https://github.com/PoomSmart) | [YTVideoOverlay](https://github.com/PoomSmart/YTVideoOverlay) |
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffcc00,50:ff6600,100:ff0055&height=80&section=footer" width="100%"/>
-
-<br/>
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0055,50:aa0088,100:550099&height=80&section=header&reversal=true" width="100%"/>
 
 ## ⚠️ Disclaimer
