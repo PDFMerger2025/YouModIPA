@@ -6,14 +6,14 @@
 </div>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,50:4400ff,100:0044ff&height=80&section=header&reversal=true" width="100%"/>
-## 💫🛸 What Is YouModExtra?
+### 💫🛸 What Is YouModExtra?
 
 **YouModExtra** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
 
 The centerpiece is **YouMod**, a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ccff,50:00ffaa,100:00ff44&height=80&section=header&reversal=true" width="100%"/>
-## ✨ Included Tweaks
+### ✨ Included Tweaks
 
 | Tweak | Description | Default |
 |---|---|---|
