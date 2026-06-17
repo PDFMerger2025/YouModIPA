@@ -1,17 +1,8 @@
 <div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0000,50:cc0000,100:880000&height=200&section=header&text=YouModExtra&fontSize=72&fontColor=ffffff&fontAlignY=38&desc=The%20Ultimate%20YouTube%20IPA%20Builder&descAlignY=58&descSize=22&animation=fadeIn" width="100%"/>
-
 <br/>
-
-[
-[
-[
-[
-[
-
 <br/>
-
 > **🎬 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click.**
 
 <br/>
@@ -20,7 +11,7 @@
 
 </div>
 
-## 🚀 What Is YouModExtra?
+## 💫🛸 What Is YouModExtra?
 
 **YouModExtra** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
 
@@ -143,16 +134,12 @@ The compiled `.deb` will be in `packages/`.
 A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** — the original architect behind this entire build system. The GitHub Actions pipeline, the tweak injection workflow, the caching strategy, the Theos integration — **all of it was designed and built by mrdrvt99**. This project simply extends that incredible foundation by integrating YouMod as the centerpiece tweak. Without their work, none of this would exist. Go give them a ⭐ star right now.
 
 <div align="center">
-
-[
-
 </div>
-
 <br/>
 
 | Tweak | Author | Repo |
 |---|---|---|
-| YouMod | [@PDFMerger2025](https://github.com/PDFMerger2025) | [YouMod](https://github.com/PDFMerger2025/YouMod) |
+| YouMod | [@Tonwalter888](https://github.com/Tonwalter888/) | [YouMod](https://github.com/Tonwalter888/YouMod) |
 | YouPiP | [@PoomSmart](https://github.com/PoomSmart) | [YouPiP](https://github.com/PoomSmart/YouPiP) |
 | YTUHD | [@Tonwalter888](https://github.com/Tonwalter888) | [YTUHD](https://github.com/Tonwalter888/YTUHD) |
 | Return YouTube Dislikes | [@PoomSmart](https://github.com/PoomSmart) | [Return-YouTube-Dislikes](https://github.com/PoomSmart/Return-YouTube-Dislikes) |
@@ -189,6 +176,5 @@ This project is intended for **personal use only**. Sideloading modified apps ma
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:880000,50:cc0000,100:ff0000&height=120&section=footer&animation=fadeIn" width="100%"/>
 
-*Built with ❤️ on top of the incredible work by [@mrdrvt99](https://github.com/mrdrvt99)*
-
+*Built with 💚 on top of the incredible work by [@mrdrvt99](https://github.com/mrdrvt99)*
 </div>
