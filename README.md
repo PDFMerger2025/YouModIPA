@@ -7,7 +7,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,50:4400ff,100:0044ff&height=80&section=header&reversal=true" width="100%"/>
  💫🛸 What Is YouModExtra?
-
+</br>
 **YouModExtra** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
 
 The centerpiece is **YouMod**, a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
@@ -96,7 +96,7 @@ The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilat
 **`_build_tweaks.yml`** — The heavy lifter. Installs Theos, clones and compiles every tweak from source, then uploads the built `.deb` files as artifacts.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffee00,50:ff9900,100:ff3300&height=80&section=header&reversal=true" width="100%"/>
-## 🛠️ Building YouMod Locally
+ 🛠️ Building YouMod Locally
 
 YouMod is built with [Theos](https://theos.dev). To build locally:
 
