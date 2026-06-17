@@ -160,6 +160,6 @@ A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** �
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0055,50:aa0088,100:550099&height=80&section=header&reversal=true" width="100%"/>
  ⚠️ Disclaimer
 
-This project is intended for **personal use only**. Sideloading modified apps may violate Apple's Terms of Service and YouTube's Terms of Service. Use at your own risk. No warranty is provided. This project is not affiliated with, endorsed by, or connected to Apple Inc. or Google LLC in any way.
+This project is intended for **personal use only**. Use at your own risk.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:550099,25:8800cc,50:cc0099,75:ff0055,100:ff4400&height=130&section=footer&animation=fadeIn" width="100%"/>
