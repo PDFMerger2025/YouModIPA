@@ -1,20 +1,18 @@
 <div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0080,25:ff4400,50:ff0000,75:cc0000,100:8800ff&height=220&section=header&text=YouModExtra&fontSize=78&fontColor=ffffff&fontAlignY=38&desc=✦%20The%20Ultimate%20YouTube%20IPA%20Builder%20✦&descAlignY=60&descSize=22&animation=fadeIn" width="100%"/>
-
 🦖 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click 🦕
 
 </div>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,50:4400ff,100:0044ff&height=80&section=header&reversal=true" width="100%"/>
-
 ## 💫🛸 What Is YouModExtra?
 
 **YouModExtra** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
 
 The centerpiece is **YouMod**, a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ccff,50:00ffaa,100:00ff44&height=80&section=header&reversal=true" width="100%"/>
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ccff,50:00ffaa,100:00ff44&height=80&section=header&reversal=true" width="100%"/>
 ## ✨ Included Tweaks
 
 | Tweak | Description | Default |
@@ -40,7 +38,6 @@ The centerpiece is **YouMod**, a custom tweak built and maintained right here. A
 | 👑 **YouPro** | Optional premium UI layer | ❌ Off |
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff44,50:aaff00,100:ffcc00&height=80&section=footer" width="100%"/>
-
 ## 🏗️ How It Works
 
 ```
@@ -83,8 +80,8 @@ The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilat
 5. Wait for the build to complete (~5–10 min)
 6. Find your IPA in **Releases** as a **Draft Release**
 7. Download and sideload with [Sideloadly](https://sideloadly.io), [AltStore](https://altstore.io), or your preferred tool
+   
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0099ff,50:00ddcc,100:00ff88&height=80&section=header&reversal=true" width="100%"/>
-
 ## 🔧 Workflow Files
 
 ```
@@ -97,8 +94,8 @@ The entire pipeline runs on **macOS** runners, uses **Theos** for tweak compilat
 **`buildyoumod.yml`** — The workflow you trigger manually. Accepts all user inputs and passes them to the build pipeline.
 
 **`_build_tweaks.yml`** — The heavy lifter. Installs Theos, clones and compiles every tweak from source, then uploads the built `.deb` files as artifacts.
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffee00,50:ff9900,100:ff3300&height=80&section=header&reversal=true" width="100%"/>
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffee00,50:ff9900,100:ff3300&height=80&section=header&reversal=true" width="100%"/>
 ## 🛠️ Building YouMod Locally
 
 YouMod is built with [Theos](https://theos.dev). To build locally:
@@ -114,8 +111,8 @@ make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 ```
 
 The compiled `.deb` will be in `packages/`.
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,25:ff00cc,50:ff0055,75:ff6600,100:ffcc00&height=80&section=header&reversal=true" width="100%"/>
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,25:ff00cc,50:ff0055,75:ff6600,100:ffcc00&height=80&section=header&reversal=true" width="100%"/>
 ## 💎 Credits & Acknowledgements
 
 <div align="center">
@@ -157,16 +154,10 @@ A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** �
 | Open in YouTube | [@BillyCurtis](https://github.com/BillyCurtis) | [OpenYouTubeSafariExtension](https://github.com/BillyCurtis/OpenYouTubeSafariExtension) |
 | YouTubeHeader | [@PoomSmart](https://github.com/PoomSmart) | [YouTubeHeader](https://github.com/PoomSmart/YouTubeHeader) |
 | YTVideoOverlay | [@PoomSmart](https://github.com/PoomSmart) | [YTVideoOverlay](https://github.com/PoomSmart/YTVideoOverlay) |
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0055,50:aa0088,100:550099&height=80&section=header&reversal=true" width="100%"/>
 
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0055,50:aa0088,100:550099&height=80&section=header&reversal=true" width="100%"/>
 ## ⚠️ Disclaimer
 
 This project is intended for **personal use only**. Sideloading modified apps may violate Apple's Terms of Service and YouTube's Terms of Service. Use at your own risk. No warranty is provided. This project is not affiliated with, endorsed by, or connected to Apple Inc. or Google LLC in any way.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:550099,25:8800cc,50:cc0099,75:ff0055,100:ff4400&height=130&section=footer&animation=fadeIn" width="100%"/>
-
-<div align="center">
-
-*Built with ❤️ on top of the incredible work by [@mrdrvt99](https://github.com/mrdrvt99)*
-
-</div>
