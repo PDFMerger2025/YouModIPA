@@ -1,0 +1,48 @@
+name: Merge Upstream
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  merge:
+    name: Merge Upstream
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout Fork
+        uses: actions/checkout@v6.0.3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch and Merge Upstream
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          UPSTREAM_REPO=$(gh repo view ${{ github.repository }} --json parent --template '{{if .parent}}{{.parent.owner.login}}/{{.parent.name}}{{end}}')
+          
+          if [ -z "$UPSTREAM_REPO" ]; then
+            echo "This is the root repository. Skipping upstream merge."
+            exit 0
+          fi
+          
+          echo "Found original upstream repository: $UPSTREAM_REPO"
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git remote add upstream "https://github.com/${UPSTREAM_REPO}.git"
+          git fetch upstream main
+          
+          echo "Attempting to merge upstream/main into the fork..."
+          if git merge upstream/main --no-edit; then
+            echo "Merge successful! Pushing updates back to fork..."
+            git push origin main
+          else
+            echo "::error::Merge conflict detected! The automated script cannot safely merge your custom changes with the upstream updates. You will need to resolve this conflict manually."
+            exit 1
+          fi

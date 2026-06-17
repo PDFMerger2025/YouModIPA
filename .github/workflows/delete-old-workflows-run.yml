@@ -1,0 +1,83 @@
+name: Delete old workflows run
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Days-worth of runs to keep for each workflow'
+        required: true
+        default: '0'
+
+      minimum_runs:
+        description: 'Minimum runs to keep for each workflow'
+        required: true
+        default: '0'
+
+      delete_workflow_pattern:
+        description: 'Name or filename of the workflow (if not set, all workflows are targeted)'
+        required: false
+        default: ''
+
+      delete_workflow_by_state_pattern:
+        description: 'Filter workflows by state: active, deleted, disabled_fork, disabled_inactivity, disabled_manually'
+        required: true
+        default: "ALL"
+        type: choice
+        options:
+          - "ALL"
+          - active
+          - deleted
+          - disabled_fork
+          - disabled_inactivity
+          - disabled_manually
+
+      delete_run_by_conclusion_pattern:
+        description: 'Remove runs based on conclusion: action_required, cancelled, failure, skipped, success'
+        required: true
+        default: "ALL"
+        type: choice
+        options:
+          - "ALL"
+          - "Unsuccessful: action_required,cancelled,failure,skipped"
+          - action_required
+          - cancelled
+          - failure
+          - skipped
+          - success
+
+      check_branch_existence:
+        description: 'Skip deletion for runs linked to an existing branch'
+        default: false
+        required: false
+        type: boolean
+
+      check_pullrequest_exist:
+        description: 'Skip deletion for runs linked to a pull request'
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    name: Delete old workflows run
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Delete old workflows run
+        uses: Mattraks/delete-workflow-runs@v2.1.0
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: ${{ inputs.days }}
+          keep_minimum_runs: ${{ inputs.minimum_runs }}
+          delete_workflow_pattern: ${{ inputs.delete_workflow_pattern }}
+          delete_workflow_by_state_pattern: ${{ inputs.delete_workflow_by_state_pattern }}
+          delete_run_by_conclusion_pattern: >-
+            ${{
+              startsWith(inputs.delete_run_by_conclusion_pattern, 'Unsuccessful:')
+              && 'action_required,cancelled,failure,skipped'
+              || inputs.delete_run_by_conclusion_pattern
+            }}
+          check_branch_existence: ${{ inputs.check_branch_existence }}
+          check_pullrequest_exist: ${{ inputs.check_pullrequest_exist }}

@@ -1,0 +1,408 @@
+name: Tweaks
+
+on:
+  workflow_call:
+    inputs:
+      youpro:
+        type: boolean
+        required: false
+        default: true
+      isponsorblock:
+        type: boolean
+        required: false
+        default: true
+      demc:
+        type: boolean
+        required: false
+        default: true
+      ythold:
+        type: boolean
+        required: false
+        default: false
+      volumeboost:
+        type: boolean
+        required: false
+        default: false
+      nativeshare:
+        type: boolean
+        required: false
+        default: false
+      youpip:
+        type: boolean
+        required: false
+        default: true
+      ytuhd:
+        type: boolean
+        required: false
+        default: true
+      ryd:
+        type: boolean
+        required: false
+        default: true
+      ytabconfig:
+        type: boolean
+        required: false
+        default: true
+      youquality:
+        type: boolean
+        required: false
+        default: true
+      youchoose:
+        type: boolean
+        required: false
+        default: false
+      gonerino:
+        type: boolean
+        required: false
+        default: false
+      yougetcaption:
+        type: boolean
+        required: false
+        default: false
+      youslider:
+        type: boolean
+        required: false
+        default: true
+      ytsilentvote:
+        type: boolean
+        required: false
+        default: true
+      ytweaks:
+        type: boolean
+        required: false
+        default: true
+      youspeed:
+        type: boolean
+        required: false
+        default: true
+      youmute:
+        type: boolean
+        required: false
+        default: true
+      youloop:
+        type: boolean
+        required: false
+        default: true
+      youmod:
+        type: boolean
+        required: false
+        default: true
+      opensafari:
+        type: boolean
+        required: false
+        default: true
+
+jobs:
+  build-tweaks:
+    name: Build Tweaks
+    runs-on: macos-latest
+    env:
+      HOMEBREW_NO_ENV_HINTS: 1
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6.0.3
+
+      - name: Install Dependencies
+        run: |
+          brew uninstall --ignore-dependencies bicep || true
+          brew untap aws/tap azure/bicep || true
+          brew install --quiet make ldid swiftlint dpkg meson ninja
+
+      - name: Set PATH Environment Variables
+        run: |
+          echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
+          echo "THEOS=${{ github.workspace }}/theos" >> $GITHUB_ENV
+
+      - name: Get Commit Hashes
+        id: commit_hashes
+        uses: ./.github/actions/get-commit-hashes
+        with:
+          isponsorblock: ${{ inputs.isponsorblock }}
+          demc: ${{ inputs.demc }}
+          ythold: ${{ inputs.ythold }}
+          volumeboost: ${{ inputs.volumeboost }}
+          nativeshare: ${{ inputs.nativeshare }}
+
+      - name: Cache Theos
+        id: theos
+        uses: ./.github/actions/cache-theos
+        with:
+          theos_commit: ${{ steps.commit_hashes.outputs.theos }}
+
+      - name: Download iOS SDK
+        if: steps.theos.outputs.cache-hit != 'true'
+        run: |
+          git clone --quiet --depth=1 -n --filter=tree:0 https://github.com/Tonwalter888/iOS-SDKs.git
+          cd iOS-SDKs
+          git sparse-checkout set --no-cone iPhoneOS18.6.sdk
+          git checkout
+          mv *.sdk $THEOS/sdks
+
+      - name: Install tbd
+        run: |
+          wget --quiet --no-verbose "https://github.com/inoahdev/tbd/releases/download/2.2/tbd-mac" -O /usr/local/bin/tbd
+          chmod +x /usr/local/bin/tbd
+
+      - name: Clone Open in YouTube (Safari Extension)
+        if: inputs.opensafari == true
+        run: |
+          git clone --quiet -n --depth=1 --filter=tree:0 https://github.com/BillyCurtis/OpenYouTubeSafariExtension.git
+          cd OpenYouTubeSafariExtension
+          git sparse-checkout set --no-cone OpenYouTubeSafariExtension.appex
+          git checkout
+          mv *.appex ${{ github.workspace }}
+
+      - name: Clone YouTubeHeader
+        run: |
+          rm -rf $THEOS/include/YouTubeHeader
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouTubeHeader.git $THEOS/include/YouTubeHeader
+          if [ "${{ inputs.demc }}" = "true" ]; then
+            rm -rf $THEOS/include/YTHeaders
+            cp -r "$THEOS/include/YouTubeHeader" "$THEOS/include/YTHeaders"
+          fi
+
+      - name: Clone PSHeader
+        run: |
+          rm -rf $THEOS/include/PSHeader
+          git clone --quiet --depth=1 https://github.com/PoomSmart/PSHeader.git $THEOS/include/PSHeader
+
+      - name: Clone YTVideoOverlay
+        run: git clone --quiet --depth=1 https://github.com/PoomSmart/YTVideoOverlay.git
+
+      - name: Cache Tweaks
+        id: cache_tweaks
+        uses: ./.github/actions/cache-tweaks
+        with:
+          sdk_version: '18.6'
+          isponsorblock: ${{ inputs.isponsorblock }}
+          demc: ${{ inputs.demc }}
+          ythold: ${{ inputs.ythold }}
+          volumeboost: ${{ inputs.volumeboost }}
+          nativeshare: ${{ inputs.nativeshare }}
+          youpip: ${{ inputs.youpip }}
+          ytuhd: ${{ inputs.ytuhd }}
+          ryd: ${{ inputs.ryd }}
+          ytabconfig: ${{ inputs.ytabconfig }}
+          youquality: ${{ inputs.youquality }}
+          youchoose: ${{ inputs.youchoose }}
+          gonerino: ${{ inputs.gonerino }}
+          yougetcaption: ${{ inputs.yougetcaption }}
+          youslider: ${{ inputs.youslider }}
+          ytsilentvote: ${{ inputs.ytsilentvote }}
+          ytweaks: ${{ inputs.ytweaks }}
+          youspeed: ${{ inputs.youspeed }}
+          youmute: ${{ inputs.youmute }}
+          youloop: ${{ inputs.youloop }}
+          youmod: ${{ inputs.youmod }}
+          alderis: ${{ inputs.youslider }}
+          theos_commit: ${{ steps.commit_hashes.outputs.theos }}
+          youpip_commit: ${{ steps.commit_hashes.outputs.youpip }}
+          ytuhd_commit: ${{ steps.commit_hashes.outputs.ytuhd }}
+          ryd_commit: ${{ steps.commit_hashes.outputs.ryd }}
+          ygs_commit: ${{ steps.commit_hashes.outputs.ygs }}
+          ytvo_commit: ${{ steps.commit_hashes.outputs.ytvo }}
+          ytabconfig_commit: ${{ steps.commit_hashes.outputs.ytabconfig }}
+          youquality_commit: ${{ steps.commit_hashes.outputs.youquality }}
+          youspeed_commit: ${{ steps.commit_hashes.outputs.youspeed }}
+          youmute_commit: ${{ steps.commit_hashes.outputs.youmute }}
+          youloop_commit: ${{ steps.commit_hashes.outputs.youloop }}
+          alderis_commit: ${{ steps.commit_hashes.outputs.alderis }}
+          youslider_commit: ${{ steps.commit_hashes.outputs.youslider }}
+          youchoose_commit: ${{ steps.commit_hashes.outputs.youchoose }}
+          ytsilentvote_commit: ${{ steps.commit_hashes.outputs.ytsilentvote }}
+          gonerino_commit: ${{ steps.commit_hashes.outputs.gonerino }}
+          ytweaks_commit: ${{ steps.commit_hashes.outputs.ytweaks }}
+          yougetcaption_commit: ${{ steps.commit_hashes.outputs.yougetcaption }}
+          iamyoutube_commit: ${{ steps.commit_hashes.outputs.iamyoutube }}
+          isponsorblock_commit: ${{ steps.commit_hashes.outputs.isponsorblock }}
+          demc_commit: ${{ steps.commit_hashes.outputs.demc }}
+          ythold_commit: ${{ steps.commit_hashes.outputs.ythold }}
+          volumeboost_commit: ${{ steps.commit_hashes.outputs.volumeboost }}
+          nativeshare_commit: ${{ steps.commit_hashes.outputs.nativeshare }}
+
+      - name: Build YTVideoOverlay
+        if: steps.cache_tweaks.outputs.cache_ytvo_hit != 'true'
+        run: |
+          cd YTVideoOverlay && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytvo.deb
+
+      - name: Clone and Build YouPro
+        if: inputs.youpro == true
+        run: |
+          git clone --quiet --depth=1 https://github.com/mrdrvt99/YouPro.git
+          cd YouPro
+          chmod -R 755 .
+          dpkg-deb --root-owner-group -Zgzip --build . ../YouPro.deb
+
+      - name: Clone and Build YouPiP
+        if: inputs.youpip == true && steps.cache_tweaks.outputs.cache_youpip_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouPiP.git
+          cd YouPiP && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youpip.deb
+
+      - name: Clone and Build YTUHD
+        if: inputs.ytuhd == true && steps.cache_tweaks.outputs.cache_ytuhd_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/Tonwalter888/YTUHD.git
+          cd YTUHD && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytuhd.deb
+
+      - name: Clone and Build Return-YouTube-Dislikes
+        if: inputs.ryd == true && steps.cache_tweaks.outputs.cache_ryd_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/Return-YouTube-Dislikes.git
+          cd Return-YouTube-Dislikes && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ryd.deb
+
+      - name: Clone and Build YouGroupSettings
+        if: steps.cache_tweaks.outputs.cache_ygs_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouGroupSettings.git
+          cd YouGroupSettings && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ygs.deb
+
+      - name: Clone and Build YTABConfig
+        if: inputs.ytabconfig == true && steps.cache_tweaks.outputs.cache_ytabconfig_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YTABConfig.git
+          cd YTABConfig && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytabconfig.deb
+
+      - name: Clone and Build YouQuality
+        if: inputs.youquality == true && steps.cache_tweaks.outputs.cache_youquality_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouQuality.git
+          cd YouQuality && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youquality.deb
+
+      - name: Clone and Build YouSpeed
+        if: inputs.youspeed == true && steps.cache_tweaks.outputs.cache_youspeed_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouSpeed.git
+          cd YouSpeed && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youspeed.deb
+
+      - name: Clone and Build YouMute
+        if: inputs.youmute == true && steps.cache_tweaks.outputs.cache_youmute_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouMute.git
+          cd YouMute && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ym.deb
+
+      - name: Clone and Build YouLoop
+        if: inputs.youloop == true && steps.cache_tweaks.outputs.cache_youloop_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/bhackel/YouLoop.git
+          cd YouLoop && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youloop.deb
+
+      - name: Clone and Build Alderis
+        if: inputs.youslider == true && steps.cache_tweaks.outputs.cache_alderis_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/hbang/Alderis.git
+          cd Alderis && make clean package DEBUG=0 FINALPACKAGE=1 ARCHS=arm64
+          mv packages/*.deb ${{ github.workspace }}/alderis.deb
+
+      - name: Clone and Build YouSlider
+        if: inputs.youslider == true && steps.cache_tweaks.outputs.cache_youslider_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouSlider.git
+          cd YouSlider && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youslider.deb
+
+      - name: Clone and Build YouChooseQuality
+        if: inputs.youchoose == true && steps.cache_tweaks.outputs.cache_youchoose_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/Tonwalter888/YouChooseQuality.git
+          cd YouChooseQuality && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youchoose.deb
+
+      - name: Clone and Build YTSilentVote
+        if: inputs.ytsilentvote == true && steps.cache_tweaks.outputs.cache_ytsilentvote_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YTSilentVote.git
+          cd YTSilentVote && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytnovote.deb
+
+      - name: Clone and Build Gonerino
+        if: inputs.gonerino == true && steps.cache_tweaks.outputs.cache_gonerino_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/castdrian/Gonerino.git
+          cd Gonerino && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/gonerino.deb
+
+      - name: Clone and Build YTweaks
+        if: inputs.ytweaks == true && steps.cache_tweaks.outputs.cache_ytweaks_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/fosterbarnes/YTweaks.git
+          cd YTweaks && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytweaks.deb
+
+      - name: Clone and Build YouGetCaption
+        if: inputs.yougetcaption == true && steps.cache_tweaks.outputs.cache_yougetcaption_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/YouGetCaption.git
+          cd YouGetCaption && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ygc.deb
+
+      - name: Clone and Build IAmYouTube
+        if: steps.cache_tweaks.outputs.cache_iamyoutube_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PoomSmart/IAmYouTube.git
+          cd IAmYouTube && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/imyt.deb
+
+      - name: Clone and Build YouMod
+        if: inputs.youmod == true && steps.cache_tweaks.outputs.cache_youmod_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/PDFMerger2025/YouMod.git
+          cd YouMod && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/youmod.deb
+
+      - name: Clone and Build DontEatMyContent
+        if: inputs.demc == true && steps.cache_tweaks.outputs.cache_demc_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/therealFoxster/DontEatMyContent.git
+          cd DontEatMyContent && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/demc.deb
+
+      - name: Clone and Build iSponsorBlock
+        if: inputs.isponsorblock == true && steps.cache_tweaks.outputs.cache_isponsorblock_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/Galactic-Dev/iSponsorBlock.git
+          cd iSponsorBlock && make clean package DEBUG=0 FINALPACKAGE=1 ROOTLESS=1 ARCHS=arm64 TARGET=iphone:clang:18.6:13.0
+          mv packages/*.deb ${{ github.workspace }}/isponsorblock.deb
+
+      - name: Clone and Build YTHoldForSpeed
+        if: inputs.ythold == true && steps.cache_tweaks.outputs.cache_ythold_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/joshuaseltzer/YTHoldForSpeed.git
+          cd YTHoldForSpeed && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ARCHS=arm64 TARGET=iphone:clang:latest:15.0
+          mv packages/*.deb ${{ github.workspace }}/ythold.deb
+
+      - name: Clone and Build VolumeBoostYT
+        if: inputs.volumeboost == true && steps.cache_tweaks.outputs.cache_volumeboost_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/VasirakCalgux/VolumeBoostYT.git
+          cd VolumeBoostYT && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ARCHS=arm64
+          mv packages/*.deb ${{ github.workspace }}/volumeboost.deb
+
+      - name: Clone and Build YTNativeShare
+        if: inputs.nativeshare == true && steps.cache_tweaks.outputs.cache_nativeshare_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/jkhsjdhjs/youtube-native-share.git
+          cd youtube-native-share
+          git clone --quiet --depth=1 https://github.com/protocolbuffers/protobuf.git
+          make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ARCHS=arm64
+          mv packages/*.deb ${{ github.workspace }}/nativeshare.deb
+
+      - name: Upload Built Debs as Artifacts
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: built-debs
+          path: |
+            *.deb
+            *.appex
+          if-no-files-found: ignore
+          retention-days: 1

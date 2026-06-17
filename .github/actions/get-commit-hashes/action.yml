@@ -1,0 +1,154 @@
+name: Get Commit Hashes
+description: Fetches latest commit hash for each tweak repo to use as cache keys
+ 
+inputs:
+  isponsorblock:
+    required: false
+    default: 'false'
+  demc:
+    required: false
+    default: 'false'
+  ythold:
+    required: false
+    default: 'false'
+  volumeboost:
+    required: false
+    default: 'false'
+  nativeshare:
+    required: false
+    default: 'false'
+
+outputs:
+  theos:
+    description: Theos commit hash
+    value: ${{ steps.hashes.outputs.theos }}
+  youpip:
+    description: YouPiP commit hash
+    value: ${{ steps.hashes.outputs.youpip }}
+  ytuhd:
+    description: YTUHD commit hash
+    value: ${{ steps.hashes.outputs.ytuhd }}
+  ryd:
+    description: Return-YouTube-Dislikes commit hash
+    value: ${{ steps.hashes.outputs.ryd }}
+  ygs:
+    description: YouGroupSettings commit hash
+    value: ${{ steps.hashes.outputs.ygs }}
+  ytvo:
+    description: YTVideoOverlay commit hash
+    value: ${{ steps.hashes.outputs.ytvo }}
+  ytabconfig:
+    description: YTABConfig commit hash
+    value: ${{ steps.hashes.outputs.ytabconfig }}
+  youquality:
+    description: YouQuality commit hash
+    value: ${{ steps.hashes.outputs.youquality }}
+  youspeed:
+    description: YouSpeed commit hash
+    value: ${{ steps.hashes.outputs.youspeed }}
+  youmute:
+    description: YouMute commit hash
+    value: ${{ steps.hashes.outputs.youmute }}
+  youloop:
+    description: YouLoop commit hash
+    value: ${{ steps.hashes.outputs.youloop }}
+  alderis:
+    description: Alderis commit hash
+    value: ${{ steps.hashes.outputs.alderis }}
+  youslider:
+    description: YouSlider commit hash
+    value: ${{ steps.hashes.outputs.youslider }}  
+  youchoose:
+    description: YouChooseQuality commit hash
+    value: ${{ steps.hashes.outputs.youchoose }}
+  ytsilentvote:
+    description: YTSilentVote commit hash
+    value: ${{ steps.hashes.outputs.ytsilentvote }}
+  gonerino:
+    description: Gonerino commit hash
+    value: ${{ steps.hashes.outputs.gonerino }}
+  ytweaks:
+    description: YTweaks commit hash
+    value: ${{ steps.hashes.outputs.ytweaks }}
+  yougetcaption:
+    description: YouGetCaption commit hash
+    value: ${{ steps.hashes.outputs.yougetcaption }}
+  iamyoutube:
+    description: IAmYouTube commit hash
+    value: ${{ steps.hashes.outputs.iamyoutube }}
+  isponsorblock:
+    description: iSponsorBlock commit hash
+    value: ${{ steps.hashes.outputs.isponsorblock }}
+  demc:
+    description: DontEatMyContent commit hash
+    value: ${{ steps.hashes.outputs.demc }}
+  ythold:
+    description: YTHoldForSpeed commit hash
+    value: ${{ steps.hashes.outputs.ythold }}
+  volumeboost:
+    description: VolumeBoostYT commit hash
+    value: ${{ steps.hashes.outputs.volumeboost }}
+  nativeshare:
+    description: YTNativeShare commit hash
+    value: ${{ steps.hashes.outputs.nativeshare }}
+
+runs:
+  using: composite
+  steps:
+    - name: Fetch commit hashes
+      id: hashes
+      shell: bash
+      run: |
+        get_hash() {
+          git ls-remote "https://github.com/$1.git" HEAD | cut -f1
+        }
+
+        echo "theos=$(get_hash theos/theos)"                                         >> $GITHUB_OUTPUT
+        echo "youpip=$(get_hash PoomSmart/YouPiP)"                                   >> $GITHUB_OUTPUT
+        echo "ytuhd=$(get_hash Tonwalter888/YTUHD)"                                  >> $GITHUB_OUTPUT
+        echo "ryd=$(get_hash PoomSmart/Return-YouTube-Dislikes)"                     >> $GITHUB_OUTPUT
+        echo "ygs=$(get_hash PoomSmart/YouGroupSettings)"                            >> $GITHUB_OUTPUT
+        echo "ytvo=$(get_hash PoomSmart/YTVideoOverlay)"                             >> $GITHUB_OUTPUT
+        echo "ytabconfig=$(get_hash PoomSmart/YTABConfig)"                           >> $GITHUB_OUTPUT
+        echo "youquality=$(get_hash PoomSmart/YouQuality)"                           >> $GITHUB_OUTPUT
+        echo "youspeed=$(get_hash PoomSmart/YouSpeed)"                               >> $GITHUB_OUTPUT
+        echo "youmute=$(get_hash PoomSmart/YouMute)"                                 >> $GITHUB_OUTPUT
+        echo "youloop=$(get_hash bhackel/YouLoop)"                                   >> $GITHUB_OUTPUT
+        echo "alderis=$(get_hash hbang/Alderis)"                                     >> $GITHUB_OUTPUT
+        echo "youslider=$(get_hash PoomSmart/YouSlider)"                             >> $GITHUB_OUTPUT
+        echo "youchoose=$(get_hash Tonwalter888/YouChooseQuality)"                   >> $GITHUB_OUTPUT
+        echo "ytsilentvote=$(get_hash PoomSmart/YTSilentVote)"                       >> $GITHUB_OUTPUT
+        echo "gonerino=$(get_hash castdrian/Gonerino)"                               >> $GITHUB_OUTPUT
+        echo "ytweaks=$(get_hash fosterbarnes/YTweaks)"                              >> $GITHUB_OUTPUT
+        echo "yougetcaption=$(get_hash PoomSmart/YouGetCaption)"                     >> $GITHUB_OUTPUT
+        echo "iamyoutube=$(get_hash PoomSmart/IAmYouTube)"                           >> $GITHUB_OUTPUT
+
+        if [ "${{ inputs.isponsorblock }}" = "true" ]; then
+          echo "isponsorblock=$(get_hash Galactic-Dev/iSponsorBlock)"                >> $GITHUB_OUTPUT
+        else
+          echo "isponsorblock=disabled"                                              >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.demc }}" = "true" ]; then
+          echo "demc=$(get_hash therealFoxster/DontEatMyContent)"                    >> $GITHUB_OUTPUT
+        else
+          echo "demc=disabled"                                                       >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.ythold }}" = "true" ]; then
+          echo "ythold=$(get_hash joshuaseltzer/YTHoldForSpeed)"                     >> $GITHUB_OUTPUT
+        else
+          echo "ythold=disabled"                                                     >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.volumeboost }}" = "true" ]; then
+          echo "volumeboost=$(get_hash VasirakCalgux/VolumeBoostYT)"                 >> $GITHUB_OUTPUT
+        else
+          echo "volumeboost=disabled"                                                >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.nativeshare }}" = "true" ]; then
+          echo "nativeshare=$(get_hash jkhsjdhjs/youtube-native-share)"              >> $GITHUB_OUTPUT
+        else
+          echo "nativeshare=disabled"                                                >> $GITHUB_OUTPUT
+        fi
