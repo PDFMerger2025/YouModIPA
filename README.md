@@ -2,8 +2,7 @@
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0000,50:cc0000,100:880000&height=200&section=header&text=YouModExtra&fontSize=72&fontColor=ffffff&fontAlignY=38&desc=The%20Ultimate%20YouTube%20IPA%20Builder&descAlignY=58&descSize=22&animation=fadeIn" width="100%"/>
 <br/>
-<br/>
-🦖 **A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click.** 🦕
+🦖 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click 🦕
 
 <br/>
 </div>
