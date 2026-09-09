@@ -35,7 +35,7 @@ on:
 
       ytuhd:
         description: "Integrate YTUHD"
-        default: true
+        default: false
         required: false
         type: boolean
 
