@@ -64,6 +64,12 @@ inputs:
   nativeshare:
     required: false
     default: 'false'
+  ytkace:
+    required: false
+    default: 'false'
+  youmod:
+    required: false
+    default: 'false'
   theos_commit:
     required: true
   youpip_commit:
@@ -128,6 +134,12 @@ inputs:
   nativeshare_commit:
     required: false
     default: 'disabled'
+  ytkace_commit:
+    required: false
+    default: 'disabled'
+  youmod_commit:
+    required: false
+    default: 'disabled'
 
 outputs:
   cache_youpip_hit:        { value: "${{ steps.cache_youpip.outputs.cache-hit }}" }
@@ -153,6 +165,8 @@ outputs:
   cache_ythold_hit:        { value: "${{ steps.cache_ythold.outputs.cache-hit }}" }
   cache_volumeboost_hit:   { value: "${{ steps.cache_volumeboost.outputs.cache-hit }}" }
   cache_nativeshare_hit:   { value: "${{ steps.cache_nativeshare.outputs.cache-hit }}" }
+  cache_ytkace_hit:        { value: "${{ steps.cache_ytkace.outputs.cache-hit }}" }
+  cache_youmod_hit:        { value: "${{ steps.cache_youmod.outputs.cache-hit }}" }
 
 runs:
   using: composite
@@ -316,3 +330,17 @@ runs:
       with:
         path: ${{ github.workspace }}/nativeshare.deb
         key: nativeshare-${{ inputs.nativeshare_commit }}-sdk${{ inputs.sdk_version }}
+
+    - uses: actions/cache@v5.0.5
+      if: inputs.ytkace == 'true' && inputs.ytkace_commit != 'disabled'
+      id: cache_ytkace
+      with:
+        path: ${{ github.workspace }}/ytkace.deb
+        key: ytkace-${{ inputs.ytkace_commit }}-sdk${{ inputs.sdk_version }}
+
+    - uses: actions/cache@v5.0.5
+      if: inputs.youmod == 'true' && inputs.youmod_commit != 'disabled'
+      id: cache_youmod
+      with:
+        path: ${{ github.workspace }}/youmod.deb
+        key: youmod-${{ inputs.youmod_commit }}-sdk${{ inputs.sdk_version }}

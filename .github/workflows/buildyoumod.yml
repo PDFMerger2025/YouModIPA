@@ -135,6 +135,18 @@ on:
         required: false
         type: boolean
 
+      alderis:
+        description: "Integrate Alderis (Color Picker)"
+        default: true
+        required: false
+        type: boolean
+
+      ytkace:
+        description: "Integrate YTKace"
+        default: false
+        required: false
+        type: boolean
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -162,6 +174,8 @@ jobs:
       youmute: ${{ inputs.youmute }}
       youloop: ${{ inputs.youloop }}
       opensafari: ${{ inputs.opensafari }}
+      alderis: ${{ inputs.alderis }}
+      ytkace: ${{ inputs.ytkace }}
 
   package:
     name: Build YouMod IPA
@@ -178,19 +192,59 @@ jobs:
           name: built-debs
           path: ${{ github.workspace }}
 
+      - name: List Downloaded Files
+        run: |
+          echo "Files downloaded from artifacts:"
+          ls -la *.deb 2>/dev/null || echo "No .deb files found"
+          ls -la *.appex 2>/dev/null || echo "No .appex files found"
+
       - name: Hide Sensitive Inputs
         uses: levibostian/action-hide-sensitive-inputs@1.2.0
         with:
-          exclude_inputs: bundle_id,display_name,demc,isponsorblock,opensafari,youpip,ytuhd,ryd,ytabconfig,youquality,youslider,ytsilentvote,ytweaks,youchoose,gonerino,yougetcaption,youspeed,youmute,youloop,youmod,youpro
+          exclude_inputs: bundle_id,display_name,demc,isponsorblock,opensafari,youpip,ytuhd,ryd,ytabconfig,youquality,youslider,ytsilentvote,ytweaks,youchoose,gonerino,yougetcaption,youspeed,youmute,youloop,youmod,youpro,alderis,ytkace
 
       - name: Download and Validate IPA
         run: |
-          wget "${{ inputs.ipa_url }}" --quiet --no-verbose -O youtube.ipa
-          file_type=$(file --mime-type -b youtube.ipa)
-          if [[ "$file_type" != "application/x-ios-app" && "$file_type" != "application/zip" ]]; then
-            echo "::error::Validation failed: The downloaded file is not a valid IPA. Detected type: $file_type."
+          echo "Downloading IPA from: ${{ inputs.ipa_url }}"
+          
+          # Download with follow redirects and show headers
+          wget --quiet --no-verbose --header="Accept: application/octet-stream,application/zip,application/x-ios-app,*/*" --header="User-Agent: Mozilla/5.0" "${{ inputs.ipa_url }}" -O youtube.ipa || wget --quiet --no-verbose --header="Accept: application/octet-stream,application/zip,application/x-ios-app,*/*" "${{ inputs.ipa_url }}" -O youtube.ipa
+          
+          # Check if file exists and has content
+          if [ ! -f youtube.ipa ]; then
+            echo "::error::Download failed: File not found"
             exit 1
           fi
+          
+          # Check file size
+          file_size=$(stat -f%z youtube.ipa 2>/dev/null || stat -c%s youtube.ipa 2>/dev/null || echo "0")
+          if [ "$file_size" -lt 1000000 ]; then
+            echo "::error::Downloaded file is too small ($file_size bytes). This likely means the URL is invalid or requires authentication."
+            echo "File content preview:"
+            head -c 500 youtube.ipa
+            exit 1
+          fi
+          
+          # Check file type
+          file_type=$(file --mime-type -b youtube.ipa)
+          echo "File type: $file_type"
+          echo "File size: $file_size bytes"
+          
+          # Try to identify if it's HTML
+          if head -c 100 youtube.ipa | grep -q "<html\|<!DOCTYPE"; then
+            echo "::error::Downloaded file appears to be HTML, not an IPA. The URL likely points to a webpage instead of the actual IPA file."
+            echo "HTML preview:"
+            head -c 500 youtube.ipa
+            exit 1
+          fi
+          
+          # Validate it's a zip file
+          if ! file youtube.ipa | grep -q "Zip archive"; then
+            echo "::error::Downloaded file is not a valid Zip archive. File type: $(file youtube.ipa)"
+            exit 1
+          fi
+          
+          echo "✅ IPA file validated successfully!"
 
       - name: Get YouTube Version
         run: |
@@ -199,7 +253,13 @@ jobs:
           rm -rf ytextracted
 
       - name: Get YouMod Version
+        if: inputs.youmod == true
         run: |
+          if [ ! -f "youmod.deb" ]; then
+            echo "::warning::youmod.deb not found - using default version"
+            echo "YOUMOD_VERSION=unknown" >> $GITHUB_ENV
+            exit 0
+          fi
           mkdir _youmod_extract && cd _youmod_extract
           ar x "../youmod.deb" >/dev/null 2>&1
           if [ -f control.tar.gz ]; then
@@ -209,16 +269,24 @@ jobs:
           elif [ -f control.tar.zst ]; then
             tar --zstd -xf control.tar.zst ./control
           else
-            echo "::error::Could not find control tarball in youmod.deb"
-            exit 1
+            echo "::warning::Could not find control tarball in youmod.deb"
+            echo "YOUMOD_VERSION=unknown" >> $GITHUB_ENV
+            cd .. && rm -rf _youmod_extract
+            exit 0
           fi
           VERSION=$(grep '^Version:' control | awk '{print $2}' | tr -d '\r')
           if [ -z "$VERSION" ]; then
-            echo "::error::Could not extract version from youmod.deb control file"
-            exit 1
+            echo "::warning::Could not extract version from youmod.deb control file"
+            echo "YOUMOD_VERSION=unknown" >> $GITHUB_ENV
+          else
+            echo "YOUMOD_VERSION=$VERSION" >> $GITHUB_ENV
           fi
-          echo "YOUMOD_VERSION=$VERSION" >> $GITHUB_ENV
           cd .. && rm -rf _youmod_extract
+
+      - name: Set Default YouMod Version
+        if: inputs.youmod != true
+        run: |
+          echo "YOUMOD_VERSION=disabled" >> $GITHUB_ENV
 
       - name: Install cyan
         run: |

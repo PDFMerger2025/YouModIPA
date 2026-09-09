@@ -34,7 +34,7 @@ on:
       ytuhd:
         type: boolean
         required: false
-        default: true
+        default: false
       ryd:
         type: boolean
         required: false
@@ -87,6 +87,14 @@ on:
         type: boolean
         required: false
         default: true
+      alderis:
+        type: boolean
+        required: false
+        default: true
+      ytkace:
+        type: boolean
+        required: false
+        default: false
       opensafari:
         type: boolean
         required: false
@@ -106,7 +114,7 @@ jobs:
         run: |
           brew uninstall --ignore-dependencies bicep || true
           brew untap aws/tap azure/bicep || true
-          brew install --quiet make ldid swiftlint dpkg meson ninja
+          brew install --quiet make ldid swiftlint dpkg meson ninja go
 
       - name: Set PATH Environment Variables
         run: |
@@ -122,12 +130,20 @@ jobs:
           ythold: ${{ inputs.ythold }}
           volumeboost: ${{ inputs.volumeboost }}
           nativeshare: ${{ inputs.nativeshare }}
+          ytkace: ${{ inputs.ytkace }}
 
       - name: Cache Theos
         id: theos
         uses: ./.github/actions/cache-theos
         with:
           theos_commit: ${{ steps.commit_hashes.outputs.theos }}
+
+      - name: Workaround Logos %orig regression
+        if: steps.theos.outputs.cache-hit == 'true'
+        run: |
+          cd "$THEOS/vendor/logos"
+          git fetch --depth=50 origin a62370066a97e36d59b200a9fa10c5091f5e8972
+          git checkout a62370066a97e36d59b200a9fa10c5091f5e8972
 
       - name: Download iOS SDK
         if: steps.theos.outputs.cache-hit != 'true'
@@ -137,6 +153,15 @@ jobs:
           git sparse-checkout set --no-cone iPhoneOS18.6.sdk
           git checkout
           mv *.sdk $THEOS/sdks
+
+      - name: Fix Missing Framework Stub Symlinks
+        run: |
+          find "$THEOS/sdks" -iname "*.framework" -type d | while read -r fw; do
+            name=$(basename "$fw" .framework)
+            if [ ! -e "$fw/$name" ] && [ -e "$fw/$name.tbd" ]; then
+              ln -s "$name.tbd" "$fw/$name"
+            fi
+          done
 
       - name: Install tbd
         run: |
@@ -179,6 +204,7 @@ jobs:
           ythold: ${{ inputs.ythold }}
           volumeboost: ${{ inputs.volumeboost }}
           nativeshare: ${{ inputs.nativeshare }}
+          ytkace: ${{ inputs.ytkace }}
           youpip: ${{ inputs.youpip }}
           ytuhd: ${{ inputs.ytuhd }}
           ryd: ${{ inputs.ryd }}
@@ -194,7 +220,7 @@ jobs:
           youmute: ${{ inputs.youmute }}
           youloop: ${{ inputs.youloop }}
           youmod: ${{ inputs.youmod }}
-          alderis: ${{ inputs.youslider }}
+          alderis: ${{ inputs.alderis }}
           theos_commit: ${{ steps.commit_hashes.outputs.theos }}
           youpip_commit: ${{ steps.commit_hashes.outputs.youpip }}
           ytuhd_commit: ${{ steps.commit_hashes.outputs.ytuhd }}
@@ -219,6 +245,8 @@ jobs:
           ythold_commit: ${{ steps.commit_hashes.outputs.ythold }}
           volumeboost_commit: ${{ steps.commit_hashes.outputs.volumeboost }}
           nativeshare_commit: ${{ steps.commit_hashes.outputs.nativeshare }}
+          ytkace_commit: ${{ steps.commit_hashes.outputs.ytkace }}
+          youmod_commit: ${{ steps.commit_hashes.outputs.youmod }}
 
       - name: Build YTVideoOverlay
         if: steps.cache_tweaks.outputs.cache_ytvo_hit != 'true'
@@ -305,10 +333,14 @@ jobs:
           mv packages/*.deb ${{ github.workspace }}/youloop.deb
 
       - name: Clone and Build Alderis
-        if: inputs.youslider == true && steps.cache_tweaks.outputs.cache_alderis_hit != 'true'
+        if: inputs.alderis == true && steps.cache_tweaks.outputs.cache_alderis_hit != 'true'
         run: |
           git clone --quiet --depth=1 https://github.com/hbang/Alderis.git
-          cd Alderis && make clean package DEBUG=0 FINALPACKAGE=1 ARCHS=arm64
+          cd Alderis
+          # Skip Alderis's "sdk" zip-generation hook — its paths assume a
+          # non-rootless /Library/Frameworks layout and break under rootless builds
+          sed -i '' '/^before-package:: sdk$/d' Makefile
+          make clean package DEBUG=0 FINALPACKAGE=1 ARCHS=arm64 TARGET=iphone:clang:latest:13.0 THEOS_PACKAGE_SCHEME=rootless ADDITIONAL_CFLAGS="-Wno-deprecated-declarations" ADDITIONAL_LDFLAGS="-F$THEOS/sdks/iPhoneOS18.6.sdk/System/Library/PrivateFrameworks"
           mv packages/*.deb ${{ github.workspace }}/alderis.deb
 
       - name: Clone and Build YouSlider
@@ -336,7 +368,7 @@ jobs:
         if: inputs.gonerino == true && steps.cache_tweaks.outputs.cache_gonerino_hit != 'true'
         run: |
           git clone --quiet --depth=1 https://github.com/castdrian/Gonerino.git
-          cd Gonerino && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          cd Gonerino && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ARCHS=arm64
           mv packages/*.deb ${{ github.workspace }}/gonerino.deb
 
       - name: Clone and Build YTweaks
@@ -396,6 +428,13 @@ jobs:
           git clone --quiet --depth=1 https://github.com/protocolbuffers/protobuf.git
           make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ARCHS=arm64
           mv packages/*.deb ${{ github.workspace }}/nativeshare.deb
+
+      - name: Clone and Build YTKace
+        if: inputs.ytkace == true && steps.cache_tweaks.outputs.cache_ytkace_hit != 'true'
+        run: |
+          git clone --quiet --depth=1 https://github.com/itzzace/ytkace.git
+          cd ytkace && make clean package DEBUG=0 FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          mv packages/*.deb ${{ github.workspace }}/ytkace.deb
 
       - name: Upload Built Debs as Artifacts
         uses: actions/upload-artifact@v7.0.1

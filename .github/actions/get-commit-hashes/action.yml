@@ -17,6 +17,9 @@ inputs:
   nativeshare:
     required: false
     default: 'false'
+  ytkace:
+    required: false
+    default: 'false'
 
 outputs:
   theos:
@@ -91,6 +94,12 @@ outputs:
   nativeshare:
     description: YTNativeShare commit hash
     value: ${{ steps.hashes.outputs.nativeshare }}
+  ytkace:
+    description: YTKace commit hash
+    value: ${{ steps.hashes.outputs.ytkace }}
+  youmod:
+    description: YouMod commit hash
+    value: ${{ steps.hashes.outputs.youmod }}
 
 runs:
   using: composite
@@ -122,6 +131,7 @@ runs:
         echo "ytweaks=$(get_hash fosterbarnes/YTweaks)"                              >> $GITHUB_OUTPUT
         echo "yougetcaption=$(get_hash PoomSmart/YouGetCaption)"                     >> $GITHUB_OUTPUT
         echo "iamyoutube=$(get_hash PoomSmart/IAmYouTube)"                           >> $GITHUB_OUTPUT
+        echo "youmod=$(get_hash PDFMerger2025/YouMod)"                               >> $GITHUB_OUTPUT
 
         if [ "${{ inputs.isponsorblock }}" = "true" ]; then
           echo "isponsorblock=$(get_hash Galactic-Dev/iSponsorBlock)"                >> $GITHUB_OUTPUT
@@ -151,4 +161,10 @@ runs:
           echo "nativeshare=$(get_hash jkhsjdhjs/youtube-native-share)"              >> $GITHUB_OUTPUT
         else
           echo "nativeshare=disabled"                                                >> $GITHUB_OUTPUT
+        fi
+
+        if [ "${{ inputs.ytkace }}" = "true" ]; then
+          echo "ytkace=$(get_hash itzzace/ytkace)"                                   >> $GITHUB_OUTPUT
+        else
+          echo "ytkace=disabled"                                                     >> $GITHUB_OUTPUT
         fi
