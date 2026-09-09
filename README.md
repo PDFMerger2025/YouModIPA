@@ -22,7 +22,7 @@ The centerpiece is **YouMod** or **YTKACE** a custom tweak built and maintained 
 | 🔴 **YouMod** | Core tweak — custom settings & enhancements | ✅ On |
 | 🎃 **YTKACE** | Core optional tweak - enhancer and downloader for iOS with SponsorBlock, background playback, player controls, and interface customization. | 🟦 Optional [Choose YouMod or YTKACE] |
 | 📺 **YouPiP** | Picture-in-Picture support | ✅ On |
-| 🎬 **YTUHD** | Unlock 4K / 8K stream quality | ✅ On |
+| 🎬 **YTUHD** | Unlock 4K / 8K stream quality | 🟦 Optional (YouMod/YouPro/YTKACE have this already built-in) |
 | 👎 **Return YouTube Dislikes** | Restore dislike counts | ✅ On |
 | ⚙️ **YTABConfig** | Unlock hidden A/B config flags | ✅ On |
 | 🎯 **YouQuality** | Auto-select preferred video quality | ✅ On |
