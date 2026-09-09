@@ -1,18 +1,18 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0080,25:ff4400,50:ff0000,75:cc0000,100:8800ff&height=220&section=header&text=YouModExtra&fontSize=78&fontColor=ffffff&fontAlignY=38&desc=✦%20The%20Ultimate%20YouTube%20IPA%20Builder%20✦&descAlignY=60&descSize=22&animation=fadeIn" width="100%"/>
-🦖 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod and a suite of the best community tweaks, all in one click 🦕
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ff0080,25:ff4400,50:ff0000,75:cc0000,100:8800ff&height=220&section=header&text=YouModIPA+YTKACEIPA&fontSize=78&fontColor=ffffff&fontAlignY=38&desc=✦%20The%20Ultimate%20YouTube%20IPA%20Builder%20✦&descAlignY=60&descSize=22&animation=fadeIn" width="100%"/>
+🦖 A powerful GitHub Actions workflow that builds a fully-tweaked YouTube IPA — powered by YouMod/YTKACE and a suite of the best community tweaks, all in one click 🦕
 
 </div>
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:8800ff,50:4400ff,100:0044ff&height=80&section=header&reversal=true" width="100%"/>
- 💫🛸 What Is YouModExtra?
+ 💫🛸 What Is YouModIPA (YTKACEIPA)?
  <br>
 </br>
 
-**YouModExtra** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
+**YouModIPA/YTKACEIPA** is a GitHub Actions–powered build system that automatically clones, compiles, and injects a curated set of iOS YouTube tweaks into a decrypted YouTube IPA — producing a sideloadable, feature-packed YouTube experience without a jailbreak.
 
-The centerpiece is **YouMod**, a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
+The centerpiece is **YouMod** or **YTKACE** a custom tweak built and maintained right here. Around it, a handpicked collection of the best community-built tweaks are bundled together to create the ultimate YouTube client.
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ccff,50:00ffaa,100:00ff44&height=80&section=header&reversal=true" width="100%"/>
  ✨ Included Tweaks
@@ -20,12 +20,14 @@ The centerpiece is **YouMod**, a custom tweak built and maintained right here. A
 | Tweak | Description | Default |
 |---|---|---|
 | 🔴 **YouMod** | Core tweak — custom settings & enhancements | ✅ On |
+| 🎃 **YTKACE** | Core optional tweak - enhancer and downloader for iOS with SponsorBlock, background playback, player controls, and interface customization. | 🟦 Optional [Choose YouMod or YTKACE] |
 | 📺 **YouPiP** | Picture-in-Picture support | ✅ On |
 | 🎬 **YTUHD** | Unlock 4K / 8K stream quality | ✅ On |
 | 👎 **Return YouTube Dislikes** | Restore dislike counts | ✅ On |
 | ⚙️ **YTABConfig** | Unlock hidden A/B config flags | ✅ On |
 | 🎯 **YouQuality** | Auto-select preferred video quality | ✅ On |
 | 🎚️ **YouSlider** | Color-customizable progress bar | ✅ On |
+| 🎚️ **Alderis** | Color-picker required for YouSlider | ✅ On |
 | 🔇 **YouMute** | Quick mute/unmute toggle | ✅ On |
 | 🔁 **YouLoop** | One-tap video looping | ✅ On |
 | ⚡ **YouSpeed** | Quick playback speed controls | ✅ On |
@@ -37,7 +39,7 @@ The centerpiece is **YouMod**, a custom tweak built and maintained right here. A
 | 🎨 **Gonerino** | Remove unwanted UI elements | ✅ On |
 | 💬 **YouGetCaption** | Enhanced caption controls | ✅ On |
 | 🎵 **YouChooseQuality** | Per-video quality selector | ✅ On |
-| 👑 **YouPro** | Optional premium UI layer | ❌ Off |
+| 👑 **YouPro** | Optional premium UI layer | 🟦 Optional |
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:00ff44,50:aaff00,100:ffcc00&height=80&section=footer" width="100%"/>
  🏗️ How It Works
@@ -133,6 +135,7 @@ A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** �
 | Tweak | Author | Repo |
 |---|---|---|
 | YouMod | [@Tonwalter888](https://github.com/Tonwalter888/) | [YouMod](https://github.com/Tonwalter888/YouMod) |
+| YouMod | [@itzzace](https://github.com/itzzace) | [YTKACE](https://github.com/itzzace/ytkace) |
 | YouPiP | [@PoomSmart](https://github.com/PoomSmart) | [YouPiP](https://github.com/PoomSmart/YouPiP) |
 | YTUHD | [@Tonwalter888](https://github.com/Tonwalter888) | [YTUHD](https://github.com/Tonwalter888/YTUHD) |
 | Return YouTube Dislikes | [@PoomSmart](https://github.com/PoomSmart) | [Return-YouTube-Dislikes](https://github.com/PoomSmart/Return-YouTube-Dislikes) |
