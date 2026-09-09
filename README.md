@@ -135,7 +135,7 @@ A massive, heartfelt shoutout to **[@mrdrvt99](https://github.com/mrdrvt99)** â€
 | Tweak | Author | Repo |
 |---|---|---|
 | YouMod | [@Tonwalter888](https://github.com/Tonwalter888/) | [YouMod](https://github.com/Tonwalter888/YouMod) |
-| YouMod | [@itzzace](https://github.com/itzzace) | [YTKACE](https://github.com/itzzace/ytkace) |
+| YTKACE | [@itzzace](https://github.com/itzzace) | [YTKACE](https://github.com/itzzace/ytkace) |
 | YouPiP | [@PoomSmart](https://github.com/PoomSmart) | [YouPiP](https://github.com/PoomSmart/YouPiP) |
 | YTUHD | [@Tonwalter888](https://github.com/Tonwalter888) | [YTUHD](https://github.com/Tonwalter888/YTUHD) |
 | Return YouTube Dislikes | [@PoomSmart](https://github.com/PoomSmart) | [Return-YouTube-Dislikes](https://github.com/PoomSmart/Return-YouTube-Dislikes) |
