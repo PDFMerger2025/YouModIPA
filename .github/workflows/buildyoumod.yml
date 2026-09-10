@@ -34,7 +34,7 @@ on:
         type: boolean
 
       ytuhd:
-        description: "Integrate YTUHD"
+        description: "Integrate YTUHD [INCOMPATIBLE WITH YOUTUBE VERSIONS 21.25.5 AND HIGHER]"
         default: false
         required: false
         type: boolean
