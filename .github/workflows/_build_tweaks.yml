@@ -154,6 +154,14 @@ jobs:
           git checkout
           mv *.sdk $THEOS/sdks
 
+      - name: Fix Logos %orig regression (after Theos setup)
+        run: |
+          if [ -d "$THEOS/vendor/logos" ]; then
+            cd "$THEOS/vendor/logos"
+            git fetch --depth=50 origin a62370066a97e36d59b200a9fa10c5091f5e8972 2>/dev/null || true
+            git checkout a62370066a97e36d59b200a9fa10c5091f5e8972
+          fi
+  
       - name: Fix Missing Framework Stub Symlinks
         run: |
           find "$THEOS/sdks" -iname "*.framework" -type d | while read -r fw; do
